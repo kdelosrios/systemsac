@@ -1,0 +1,24 @@
+{
+  "name": "systemsac",
+  "version": "1.0.0",
+  "description": "Registro de actos y condiciones inseguras",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kdelosrios/systemsac.git"
+  },
+  "author": "Viviana De Los Rios",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kdelosrios/systemsac/issues"
+  },
+  "homepage": "https://github.com/kdelosrios/systemsac#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.5.0"
+  }
+}
