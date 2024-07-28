@@ -26,11 +26,7 @@ const registeraSchema = mongoose.Schema({
         enum: ['Producción', 'Mantenimiento', 'CEDI', 'Materias primas'],
         required: [true, "Por favor seleccione el área donde evidenció el acto inseguro"]
     },
-    realizo_investigacion: {
-        type: Boolean,
-        default: false,
-        required: [true, "Por favor indique si realizó retroalimentación al trabajador"]
-    }
+
 });
 
 module.exports= mongoose.model("registera",registeraSchema)
