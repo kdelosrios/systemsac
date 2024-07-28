@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* edicion navegation*/
+
+.section1{
+
+  padding: 3%;
+  color: white;
+  text-align: right;
+  font-weight: bold;
+  background-color: #2c3152;
+  border-radius: 10px;
+  margin-top: -150px;
+  margin-left: 200px
+}   
