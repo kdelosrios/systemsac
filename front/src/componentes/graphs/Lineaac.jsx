@@ -62,7 +62,7 @@ export const LineGraph2 =()=>{
     };
 
     return(
-        <div className="section section5">
+        <div className="section section7">
             <div className='chart'>
                 <h2>Gráfica áreas </h2>
                 <Line options={options} data={data} />

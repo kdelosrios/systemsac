@@ -38,16 +38,27 @@
 }
 
 
-/* edicion navegation*/
+
 
 .section1{
 
   padding: 3%;
   color: white;
   text-align: right;
-  font-weight: bold;
   background-color: #2c3152;
   border-radius: 10px;
   margin-top: -150px;
-  margin-left: 200px
+  margin-left: 250px;
+  font-size: 15px;
+  
 }   
+
+.login-container {
+  background-color: white !important;
+  padding: 3px;
+  border-radius: 5px;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  width: 200px;
+}
