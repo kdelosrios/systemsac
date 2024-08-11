@@ -5,7 +5,7 @@ import { LineGraph1 } from './graphs/Linepac.jsx';
 import { LineGraph2 } from './graphs/Lineaac.jsx';
 import {Charta} from './graphs/Charta.jsx';
 import {Chartc} from './graphs/Chartc.jsx'
-import '../componentes/chartStyles.css';
+import '../componentes/ChartStyles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle,faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 

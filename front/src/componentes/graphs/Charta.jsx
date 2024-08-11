@@ -64,7 +64,7 @@ export const Charta = () => {
     return (
         <div className="section section5">
             <div className='chart-container1'>
-                <h2>Caracteristicas de los actos inseguros</h2>
+                <h2>Características de los actos inseguros</h2>
                 <Pie data={data} options={commonOptions} />
             </div>
         </div>

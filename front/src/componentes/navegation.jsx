@@ -20,7 +20,7 @@ class Navegation extends React.Component{
         <div className="section section1">
           <nav className="navbar">
             <a href="home"><FontAwesomeIcon icon={faHome} /> HOME</a>
-            <a href="total_actos"><FontAwesomeIcon icon={faExclamationTriangle} /> ACTOS INSEGUROS</a>
+            <a href="registroa"><FontAwesomeIcon icon={faExclamationTriangle} /> ACTOS INSEGUROS</a>
             <a href="total_condiciones"><FontAwesomeIcon icon={faExclamationCircle} /> CONDICIONES INSEGURAS</a>
             <a href="usuarios"><FontAwesomeIcon icon={faUsers} /> USUARIOS</a>
             

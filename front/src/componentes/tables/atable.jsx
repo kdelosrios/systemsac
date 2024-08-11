@@ -1,11 +1,19 @@
-import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {useDispatch} from 'react-redux';
+import { getActs} from '../../actions/actActions';
+import { useEffect} from 'react';
+
 
 const Atable = () => {
+
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(getActs());
+  }, [dispatch])
+
   return (
+  
     
-    
-      
       <table className="table">
         <thead>
           <tr>

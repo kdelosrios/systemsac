@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './formsStyles.css'; 
+import './FormsStyles.css'; 
 
 const ConditionsForm = () => {
     return (

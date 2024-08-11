@@ -1,5 +1,5 @@
 import React from 'react';
-import  '../forms/formsStyles.css';
+import  '../forms/FormsStyles.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
