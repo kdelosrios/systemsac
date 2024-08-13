@@ -21,7 +21,7 @@ class Navegation extends React.Component{
           <nav className="navbar">
             <a href="home"><FontAwesomeIcon icon={faHome} /> HOME</a>
             <a href="registroa"><FontAwesomeIcon icon={faExclamationTriangle} /> ACTOS INSEGUROS</a>
-            <a href="total_condiciones"><FontAwesomeIcon icon={faExclamationCircle} /> CONDICIONES INSEGURAS</a>
+            <a href="registroc"><FontAwesomeIcon icon={faExclamationCircle} /> CONDICIONES INSEGURAS</a>
             <a href="usuarios"><FontAwesomeIcon icon={faUsers} /> USUARIOS</a>
             
             <div className="col-12 col-md-3 mt-4 mt-md-0 text center"  class="login-container">

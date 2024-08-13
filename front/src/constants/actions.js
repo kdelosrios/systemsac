@@ -9,3 +9,5 @@ export const CONDITIONS_REQUEST = "CONDITIONS_REQUEST";
 export const CONDITIONS_SUCCESS = "CONDITIONS_SUCCESS";
 export const CONDITIONS_FAIL = "CONDITIONS_FAIL";
 export const CLEAR_ERRORSC="CLEAR_ERRORS"
+
+// Acción para solicitar datos para las gráficas 

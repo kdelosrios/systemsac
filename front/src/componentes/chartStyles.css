@@ -123,8 +123,8 @@ h2 {
     height: 50px;
     margin: 0px;
     position: relative;
-    margin-top: -690px;
-    margin-left: 440px;
+    margin-top: -155px;
+    margin-left: 460px;
     margin-right: auto;
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
@@ -134,7 +134,7 @@ h2 {
 .section6 {
     width: 150px;
     height: 150px;
-    margin-top: -50px;
+    margin-top: -650px;
     margin-left: 900px; 
     margin-right: auto; 
     position: relative; 
@@ -197,11 +197,11 @@ h2 {
     margin: 20px;
     margin-top: -280px;
     text-align: center;
-    padding: 15px; /* Espaciado interno para el botón */
-    background-color: #ffffff; /* Fondo blanco para el botón */
-    border: 2px solid #cccccc; /* Borde gris claro */
-    border-radius: 8px; /* Bordes redondeados */
-    width: 200px; /* Ancho del botón */
+    padding: 15px; 
+    background-color: #ffffff;
+    border: 2px solid #cccccc; 
+    border-radius: 8px; 
+    width: 200px; 
 }
 .icon-large {
     font-size: 2rem; /* Tamaño del ícono ajustado */
@@ -219,7 +219,7 @@ h2 {
 
 .table {
    
-    width: 80%; 
+    width: 100%; 
     margin: 0 auto; 
     margin-top: 80px;
 }

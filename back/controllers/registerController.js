@@ -2,14 +2,19 @@
 const registroa=require("../models/formsa");
 
 // Lista de registros de actos inseguros
-exports.getregiters= async(req,res,next) =>{
-    const registrosa= await registroa.find();
-    res.status(200).json({
-        success:true,
-        count:registrosa.length,
-        registrosa,
-    })
-}
+exports.getregiters = async (req, res, next) => {
+    try {
+        const registrosa = await registroa.find();
+        //console.log('Datos enviados:', registrosa); 
+        res.status(200).json({
+            success: true,
+            count: registrosa.length,
+            registrosa,
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
 
 // ver un registro de acto inseguro por ID
 

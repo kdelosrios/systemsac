@@ -5,7 +5,6 @@ import {
     CLEAR_ERRORSC
 } from "../constants/actions";
 
-
 const initialState = {
     loading: false,
     conditions: [], 
@@ -13,34 +12,33 @@ const initialState = {
     error: null
 };
 
-
 export const conditionsReducer = (state = initialState, action) => {
     switch(action.type) {
         case CONDITIONS_REQUEST:
             return {
-                
                 loading: true, 
-                conditions: [] 
+                conditions: [], 
+                count: 0,
+                error: null
             };
         case CONDITIONS_SUCCESS:
             return {
-               
                 loading: false, 
-                conditions: action.payload.conditions, // ESTA PENDIENTE CREAR EL CONTROLADOR EN EL BACK
-                count: action.payload.count 
+                conditions: action.payload.registrosc, // Asegúrate de usar 'registrosc'
+                count: action.payload.count
             };
         case CONDITIONS_FAIL:
             return {
                 ...state,
-                loading: false, // La solicitud ha terminado con error
-                error: action.payload // Guarda el error para mostrarlo en la UI
+                loading: false, 
+                error: action.payload 
             };
         case CLEAR_ERRORSC:
             return {
                 ...state,
-                error: null // Limpia el error cuando sea necesario
+                error: null 
             };
         default:
-            return state; // Retorna el estado actual si no se maneja ninguna acción
+            return state; 
     }
 };
