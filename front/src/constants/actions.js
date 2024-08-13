@@ -3,11 +3,25 @@ export const ACTS_SUCCESS = "ACTS_SUCCESS";
 export const ACTS_FAIL = "ACTS_FAIL";
 export const CLEAR_ERRORSA="CLEAR_ERRORS"
 
-// Acción para solicitar el registro de condiciones inseguras
+
 
 export const CONDITIONS_REQUEST = "CONDITIONS_REQUEST";
 export const CONDITIONS_SUCCESS = "CONDITIONS_SUCCESS";
 export const CONDITIONS_FAIL = "CONDITIONS_FAIL";
 export const CLEAR_ERRORSC="CLEAR_ERRORS"
 
-// Acción para solicitar datos para las gráficas 
+
+// por ID para actos
+
+export const ACT_ID_REQUEST="ACT_ID_REQUEST";
+export const ACT_ID_SUCCESS="ACT_ID_SUCCESS";
+export const ACT_ID_FAIL="ACT_ID_FAIL"
+export const CLEAR_ERRORSAI="CLEAR_ERRORSAI"
+
+// por ID para condiciones
+
+export const CONDITION_ID_REQUEST="ACT_ID_REQUEST";
+export const CONDITION_ID_SUCCESS="ACT_ID_SUCCESS";
+export const CONDITION_ID_FAIL="ACT_ID_FAIL"
+export const CLEAR_ERRORSCI="CLEAR_ERRORSCI"
+

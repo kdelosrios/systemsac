@@ -23,7 +23,8 @@ exports.getRegisterById= async(req,res,next)=>{
     if(!act){
         return res.status(404).json({
             success:false,
-            message: "No se encuntra el registro indicado"
+            message: "No se encuntra el registro indicado",
+            error: true
         })
     }
     res.status(200).json({

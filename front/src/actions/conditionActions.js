@@ -4,9 +4,15 @@ import {
     CONDITIONS_REQUEST,
     CONDITIONS_SUCCESS,
     CONDITIONS_FAIL,
+    CONDITION_ID_REQUEST,
+    CONDITION_ID_SUCCESS,
+    CONDITION_ID_FAIL,
     CLEAR_ERRORSC,
+    CLEAR_ERRORSCI,
     
 } from '../constants/actions';
+
+ // DETALLE PARA DE CONDICIONES
 
 export const getConditions = () => async (dispatch) => {
     try {
@@ -34,8 +40,34 @@ export const clearErrorsc = ()=> async(dispatch)=>{
     })
 }
 
+// DETALE DE CONDICIONES POR ID
 
 
+export const getConditionsByID = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: CONDITION_ID_REQUEST });
+        const { data } = await axios.get(`api/registroc/:${id}`);
+        
+
+        dispatch({
+            type: CONDITION_ID_SUCCESS,
+            payload: data.condition
+        });
+    } catch (error) {
+        dispatch({
+            type: CONDITION_ID_FAIL,
+            payload: error.response.data.message
+        });
+    }
+};
+
+// clear error
+
+export const clearErrorscByID = ()=> async(dispatch)=>{
+    dispatch({
+        type: CLEAR_ERRORSCI
+    })
+}
 
 
 

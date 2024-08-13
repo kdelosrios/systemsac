@@ -1,12 +1,14 @@
 import {createStore,combineReducers,applyMiddleware} from 'redux';
 import { thunk } from 'redux-thunk'; 
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { actsReducer } from './reducer/actReducer';
-import { conditionsReducer } from './reducer/conditionsReducer';
+import { actsReducer,actsByIdReducer } from './reducer/actReducer';
+import { conditionsReducer,conditionsByIdReducer } from './reducer/conditionsReducer';
 
 const reducer =combineReducers({
     acts:actsReducer,
-    conditions:conditionsReducer 
+    conditions:conditionsReducer,
+    actByID:actsByIdReducer,
+    conditionbyID:conditionsByIdReducer
 })
     
 
