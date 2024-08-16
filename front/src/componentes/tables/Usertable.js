@@ -10,9 +10,10 @@ const Usuarios = () => {
           <tr>
             <th scope="col">#</th>
             <th scope="col">Nombre</th>
-            <th scope="col">Correo Electrónico</th>
+            <th scope="col">Email</th>
             <th scope="col">Rol</th>
-            <th scope="col">Activo</th>
+            
+            
           </tr>
         </thead>
         <tbody>
