@@ -4,11 +4,18 @@ import {
     ACTS_REQUEST,
     ACTS_SUCCESS,
     ACTS_FAIL,
+
     ACT_ID_REQUEST,
     ACT_ID_SUCCESS,
     ACT_ID_FAIL,
+
+    CREATE_ACT_REQUEST,
+    CREATE_ACT_SUCCESS,
+    CREATE_ACT_FAIL,
+
     CLEAR_ERRORSA,
-    CLEAR_ERRORSAI
+    CLEAR_ERRORSAI,
+    
    
 } from '../constants/actions';
 
@@ -65,3 +72,25 @@ export const clearErrorsaByID = ()=> async(dispatch)=>{
         type:CLEAR_ERRORSAI
     })
 }
+
+
+// DETALLE POR CREACION DE ACTO
+
+export const createAct = (formData) => async (dispatch) => {
+    try {
+        dispatch({ type: CREATE_ACT_REQUEST });
+
+       
+        const {data} = await axios.post('/api/newregistroa', formData);
+
+        dispatch({
+            type: CREATE_ACT_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: CREATE_ACT_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};

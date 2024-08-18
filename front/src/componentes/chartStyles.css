@@ -231,3 +231,25 @@ h2 {
     
 }
 
+/*Iniciar sesión*/
+
+/* Estilo para el contenedor del panel de control */
+
+  /* Estilo para el botón desplegable */
+  .btn.dropdown-toggle {
+    
+    color: black; 
+    border: none;
+    border-radius: 5px; 
+    padding: 15px 20px; 
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif; 
+    
+  }
+
+  .dropdown-menu{
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif; 
+
+  }
+  

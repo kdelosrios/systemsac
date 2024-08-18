@@ -8,7 +8,7 @@ exports.getregiters = cathAsyncErrors (async (req, res, next) => {
  
         const registrosa = await registroa.find();
 
-        if(!registroa){
+        if(!registrosa){
             return  next(new ErrorHandler("Información no encontrada", 404))
             }
        
@@ -39,14 +39,18 @@ exports.getRegisterById= cathAsyncErrors (async(req,res,next)=>{
 // crear un acto inseguro /registera
 
 exports.newRegistera= cathAsyncErrors(async(req,res,next)=>{
-    const registera= await registroa.create(req.body);
-    if(!registera){
-        return  next(new ErrorHandler("No se pudo cerar el registro", 404))
+    try {
+        const registera = await registroa.create(req.body);
+        if (!registera) {
+          return next(new ErrorHandler("No se pudo crear el registro", 404));
         }
-
-    res.status(201).json({
-        success:true,
-        registera
-    })
-})
-
+    
+        res.status(201).json({
+          success: true,
+          registera
+        });
+      } catch (error) {
+        console.error('Error en newRegistera:', error); // Agrega este log para depurar
+        next(error); // Asegúrate de que el error sea manejado por el middleware de errores
+      }
+    });

@@ -40,7 +40,7 @@ exports.getRegistercById= cathAsyncErrors(async(req,res,next)=>{
 exports.newRegisterc= cathAsyncErrors(async(req,res,next)=>{
     const registerc= await registroc.create(req.body);
 
-    if(!contidion){
+    if(!registerc){
         return  next(new ErrorHandler("Registro no encontrado", 404))
         } 
 

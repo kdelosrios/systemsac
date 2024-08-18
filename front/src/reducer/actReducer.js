@@ -1,9 +1,11 @@
 import { ACTS_REQUEST, 
     ACTS_SUCCESS, 
     ACTS_FAIL,
+
     ACT_ID_REQUEST,
     ACT_ID_SUCCESS,
     ACT_ID_FAIL,
+
     CLEAR_ERRORSA,
     CLEAR_ERRORSAI } from "../constants/actions";
 
@@ -25,7 +27,7 @@ export const actsReducer = (state = initialState, action) => {
         case ACTS_SUCCESS:
             return {
                 loading: false,
-                acts: action.payload.registrosa, // Cambia registrosa a acts
+                acts: action.payload.registrosa, 
                 count: action.payload.count
             };
         case ACTS_FAIL:
@@ -71,3 +73,5 @@ export const actsByIdReducer = (state = {act:null}, action) => {
             return state;
     }
 };
+
+

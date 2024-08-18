@@ -7,9 +7,7 @@ import {Charta} from './graphs/Charta.js';
 import {Chartc} from './graphs/Chartc.js'
 import '../componentes/ChartStyles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationTriangle,faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
-
-
+import { faExclamationTriangle,faExclamationCircle, } from '@fortawesome/free-solid-svg-icons';
 
 
 export const Home = () => {
@@ -20,19 +18,21 @@ export const Home = () => {
           <nav className="navbar">
 
           
-          <a href="registro_actos" className="nav-link">
+          <a href="newregistroa" className="nav-link">
           <div className="nav-item1">
             <FontAwesomeIcon icon={faExclamationTriangle} className="icon-large" />
             <span className="nav-text">REGISTRO ACTOS INSEGUROS</span>
             </div>
           </a>
 
-          <a href="registro_condiciones" className="nav-link">
+          <a href="newregistroc" className="nav-link">
           <div className="nav-item2">
             <FontAwesomeIcon icon={faExclamationCircle} className="icon-large" />
             <span className="nav-text">REGISTRO CONDICIONES INSEGURAS</span>
               </div>
             </a>
+
+
           </nav>
         </div>
       <div className="chart-container">

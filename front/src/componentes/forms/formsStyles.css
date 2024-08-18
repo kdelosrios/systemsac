@@ -7,25 +7,41 @@
 }
 
 /* Estilos para el contenedor del formulario */
+
 .form-wrapper {
     width: 100%;
-    max-width: 600px; /* Ajusta el ancho máximo según tus necesidades */
+    max-width: 600px; 
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 2px solid #d0d0d0; /* Línea gris alrededor del formulario */
-    background-color: #ffffff; /* Fondo blanco para el formulario */
+    border: 2px solid #d0d0d0; 
+    background-color: #ffffff;
     position: relative;
 }
 
-/* Estilo para el título */
+/* Estilo para el título de lformualrio */
 .form-title {
-    color: #003f5c; /* Color del texto del título */
+    color: #003f5c; 
     font-weight: bold;
-    margin-bottom: 20px; /* Margen inferior para separar el título del formulario */
-    text-align: center; /* Centra el texto del título */
+    margin-bottom: 20px; 
+    text-align: center; 
 }
 
 .container{
     margin-top: 500px;
+}
+
+/* inicio de sesión*/
+
+.card{
+    width: 300px;
+    height: 300px;
+    margin-left: 200px;
+}
+
+.btn-primary{
+    text-align: center;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
 }

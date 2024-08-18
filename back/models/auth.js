@@ -1,6 +1,7 @@
 const mongoose = require ('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
+const jwt=require("jsonwebtoken")
 
 
 const usuarioSchema= new mongoose.Schema({
@@ -15,10 +16,10 @@ const usuarioSchema= new mongoose.Schema({
         unique: true,
         validate: [validator.isEmail, " Por favor ingrese un email valido"]
     },
-    rol:{
-    type: [String],
-        enum: ["administrador", "usuario"], 
-        default: "usuario", 
+    role:{
+    type: String,
+        enum: ["admin", "user"], 
+        default: "user", 
         required: [true, "Por favor seleccione un rol"]
     },
     password:{
@@ -32,13 +33,29 @@ const usuarioSchema= new mongoose.Schema({
     resetPasswordExpire: Date,
 })
 
+// encriptar la contraseña
     
-    usuarioSchema.pre("save", async function(next){
+usuarioSchema.pre("save", async function(next){
         if(!this.isModified("password")){
             next()
         }
         this.password =await bcrypt.hash(this.password, 10)
 })
+
+//descodificamos contraseñas y se compara contraseñas
+
+usuarioSchema.methods.compararPass= async function(passDada){
+        return await bcrypt.compare(passDada, this.password)
+    }
+
+//Token para la contraseña de cada usuario(retornar un JWT token)
+
+usuarioSchema.methods.getJwtToken = function () {
+    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_TIEMPO_EXPIRACION,
+    });
+  };
+
 
 
 module.exports = mongoose.model("auth",usuarioSchema)

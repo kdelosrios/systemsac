@@ -18,7 +18,7 @@ const Atable = () => {
     }
     dispatch(getActs());
     alert.success("OK");
-  }, [alert, dispatch]);
+  }, [alert, dispatch,error]);
 
   useEffect(() => {
 

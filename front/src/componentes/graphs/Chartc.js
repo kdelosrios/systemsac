@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { getConditions } from '../../actions/conditionActions'; // Ajusta la ruta según sea necesario
-
+import { getConditions } from '../../actions/conditionActions';
 ChartJS.register(
     ArcElement,
     Tooltip,
@@ -59,7 +58,7 @@ export const Chartc = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (conditions) {
+        if (Array.isArray(conditions) && conditions.length > 0) {
             console.log('Conditions:', conditions);
 
             // Conteo de características de las condiciones
@@ -72,16 +71,17 @@ export const Chartc = () => {
                 'Falta de señalización de peligro': 0,
                 'Almacenamiento inadecuado de sustancias o materiales': 0,
                 'Falta de mantenimiento de equipos': 0,
-                'Ruido Excesivo':0
+                'Ruido Excesivo': 0
             };
 
             conditions.forEach(condition => {
-                console.log('Condition:', condition);
-                condition.caracteristicas.forEach(characteristic => {
-                    if (characteristicsCount[characteristic] !== undefined) {
-                        characteristicsCount[characteristic]++;
-                    }
-                });
+                if (Array.isArray(condition.caracteristicas)) {
+                    condition.caracteristicas.forEach(characteristic => {
+                        if (characteristicsCount[characteristic] !== undefined) {
+                            characteristicsCount[characteristic]++;
+                        }
+                    });
+                }
             });
 
             console.log('Characteristics Count:', characteristicsCount);

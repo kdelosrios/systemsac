@@ -1,60 +1,157 @@
-import React from 'react';
-import  '../forms/FormsStyles.css';
+import React, { useState } from 'react';
+import '../forms/FormsStyles.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { useDispatch } from 'react-redux';
+import { createAct } from '../../actions/actActions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const ActsForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    fecha: '',
+    descripcion: '',
+    riesgo: '',
+    caracteristicas: '',
+    area: ''
+  });
+
+  const [alert, setAlert] = useState({ type: '', message: '', icon: null });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createAct(formData))
+      .then(() => {
+        setAlert({
+          type: 'success',
+          message: 'Registro de acto inseguro creado exitosamente',
+          icon: <FontAwesomeIcon icon={faCheckCircle} />
+        });
+        setFormData({
+          fecha: '',
+          descripcion: '',
+          riesgo: '',
+          caracteristicas: '',
+          area: ''
+        });
+        setTimeout(() => {
+          navigate('/home'); 
+        }, 1000);
+      })
+      .catch((error) => {
+        setAlert({
+          type: 'danger',
+          message: 'Error al crear el registro',
+          icon: <FontAwesomeIcon icon={faTimesCircle} />
+        });
+        console.error('Error al crear el registro:', error);
+      });
+  };
+
   return (
-      <div className="section sectionac">
-          <div className="form-wrapper">
-              <h2 className="form-title">Registro de Actos Inseguros</h2>
-              <form action="/aregistered" method="post" className="form-container">
-                  <div className="mb-3">
-                      <label htmlFor="exampleDate" className="form-label">Fecha</label>
-                      <input type="date" className="form-control" id="exampleDate" name="fecha" />
-                  </div>
-
-                  <div className="mb-3">
-                      <label htmlFor="exampleDescription" className="form-label">Descripción</label>
-                      <textarea className="form-control" id="exampleFormDescription1" rows="1" name="descripcion"></textarea>
-                  </div>
-
-                  <select name="riesgos" className="form-select mb-3" aria-label="Default select riesgo">
-                      <option selected>Riesgo</option>
-                      <option value="1">Físico</option>
-                      <option value="2">Químico</option>
-                      <option value="3">Biológico</option>
-                      <option value="4">Psicosocial</option>
-                      <option value="5">Condiciones de Seguridad</option>
-                      <option value="6">Eléctrico</option>
-                      <option value="7">Mecánico</option>
-                  </select>
-
-                  <select name="caracteristicas" className="form-select mb-3" aria-label="Default select caracteristicas">
-                      <option selected>Características</option>
-                      <option value="1">No uso de EPP</option>
-                      <option value="2">Ingreso a zonas restringidas</option>
-                      <option value="3">Manipulación incorrecta de equipos</option>
-                      <option value="4">Ignorar procedimientos de seguridad</option>
-                      <option value="5">Postura y movimientos incorrectos</option>
-                      <option value="6">Falta de atención o concentración</option>
-                      <option value="7">Uso inadecuado de herramientas</option>
-                      <option value="8">Uso inseguro de sustancias o materiales</option>
-                  </select>
-
-                  <select name="area" className="form-select mb-3" aria-label="Default select area">
-                      <option selected>Seleccione el área</option>
-                      <option value="1">Producción</option>
-                      <option value="2">Mantenimiento</option>
-                      <option value="3">CEDI</option>
-                      <option value="4">Materias primas</option>
-                      <option value="5">Gestión Humana</option>
-                  </select>
-
-                  <button type="submit" className="btn btn-primary">Enviar</button>
-              </form>
+    <div className="section sectionac">
+      <div className="form-wrapper">
+        <h2 className="form-title">Registro de Actos Inseguros</h2>
+        
+        {alert.message && (
+          <div className={`alert alert-${alert.type} d-flex align-items-center`} role="alert">
+            {alert.icon}
+            <div className="ms-2">
+              {alert.message}
+            </div>
           </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="form-container">
+          <div className="mb-3">
+            <label htmlFor="exampleDate" className="form-label">Fecha</label>
+            <input
+              type="date"
+              className="form-control"
+              id="exampleDate"
+              name="fecha"
+              value={formData.fecha}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="exampleDescription" className="form-label">Descripción</label>
+            <textarea
+              className="form-control"
+              id="exampleDescription"
+              rows="1"
+              name="descripcion"
+              value={formData.descripcion}
+              onChange={handleChange}
+            ></textarea>
+          </div>
+
+          <select
+            name="riesgo"
+            className="form-select mb-3"
+            aria-label="Default select riesgo"
+            onChange={handleChange}
+            value={formData.riesgo}
+          >
+            <option value="">Seleccionar riesgo</option>
+            <option value="Físico">Físico</option>
+            <option value="Químico">Químico</option>
+            <option value="Biológico">Biológico</option>
+            <option value="Psicosocial">Psicosocial</option>
+            <option value="Condiciones de Seguridad">Condiciones de Seguridad</option>
+            <option value="Eléctrico">Eléctrico</option>
+            <option value="Mecánico">Mecánico</option>
+          </select>
+
+          <select
+            name="caracteristicas"
+            className="form-select mb-3"
+            aria-label="Default select características"
+            onChange={handleChange}
+            value={formData.caracteristicas}
+          >
+            <option value="">Seleccionar característica</option>
+            <option value="No uso de EPP">No uso de EPP</option>
+            <option value="Ingreso a zonas restringidas">Ingreso a zonas restringidas</option>
+            <option value="Manipulación incorrecta de equipos">Manipulación incorrecta de equipos</option>
+            <option value="Ignorar procedimientos de seguridad">Ignorar procedimientos de seguridad</option>
+            <option value="Postura y movimientos incorrectos">Postura y movimientos incorrectos</option>
+            <option value="Falta de atención o concentración">Falta de atención o concentración</option>
+            <option value="Uso inadecuado de herramientas">Uso inadecuado de herramientas</option>
+            <option value="Uso inseguro de sustancias o materiales">Uso inseguro de sustancias o materiales</option>
+          </select>
+
+          <select
+            name="area"
+            className="form-select mb-3"
+            aria-label="Default select área"
+            onChange={handleChange}
+            value={formData.area}
+          >
+            <option value="">Seleccionar área</option>
+            <option value="Producción">Producción</option>
+            <option value="Mantenimiento">Mantenimiento</option>
+            <option value="CEDI">CEDI</option>
+            <option value="Materias primas">Materias primas</option>
+            <option value="Gestión Humana">Gestión Humana</option>
+          </select>
+
+          <button type="submit" className="btn btn-primary">Enviar</button>
+        </form>
       </div>
+    </div>
   );
 };
 

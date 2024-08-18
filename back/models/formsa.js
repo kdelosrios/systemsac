@@ -13,7 +13,7 @@ const registeraSchema = mongoose.Schema({
     },
     riesgo: {
         type: [String],
-        enum: ['Físicos', 'Químicos', 'Biológicos', 'Biomecánicos', 'Psicosocial', 'Condiciones de Seguridad', 'Eléctrico', 'Mecánicos'],
+        enum: ['Físicos', 'Químico', 'Biológico', 'Biomecánico', 'Psicosocial', 'Condiciones de Seguridad', 'Eléctrico', 'Mecánico'],
         required: [true, "Por favor seleccione el riesgo"]
     },
     caracteristicas: {
@@ -23,7 +23,7 @@ const registeraSchema = mongoose.Schema({
     },
     area: {
         type: [String],
-        enum: ['Producción', 'Mantenimiento', 'CEDI', 'Materias primas'],
+        enum: ['Producción', 'Mantenimiento', 'CEDI', 'Materias primas','Gestión Humana'],
         required: [true, "Por favor seleccione el área donde evidenció el acto inseguro"]
     },
 

@@ -59,10 +59,9 @@ export const Charta = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (acts) {
+        if (Array.isArray(acts) && acts.length > 0) {
             console.log('Actos:', acts);
 
-            
             const characteristicsCount = {
                 'No uso de EPP': 0,
                 'Ingreso a zonas restringidas': 0,
@@ -75,11 +74,13 @@ export const Charta = () => {
             };
 
             acts.forEach(act => {
-                act.caracteristicas.forEach(characteristic => {
-                    if (characteristicsCount[characteristic] !== undefined) {
-                        characteristicsCount[characteristic]++;
-                    }
-                });
+                if (Array.isArray(act.caracteristicas)) {
+                    act.caracteristicas.forEach(characteristic => {
+                        if (characteristicsCount[characteristic] !== undefined) {
+                            characteristicsCount[characteristic]++;
+                        }
+                    });
+                }
             });
 
             setData({
