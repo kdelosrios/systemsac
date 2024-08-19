@@ -6,7 +6,7 @@ const sendEmail= require("../utils/sendEmail");
 const crypto=require('crypto');
 const resetPasswordToken  =require('../models/auth')
 const getResetPasswordToken =require ('../models/auth');
-const { AsyncResource } = require("async_hooks");
+const mongoose = require('mongoose');
 
 // Registrar un nuevo usuario /api/usuario
 
@@ -230,18 +230,23 @@ exports.getUsuarioById= cathAsyncErrors(async(req,res,next)=>{
 exports.deleteUser = cathAsyncErrors(async (req, res, next) => {
     const userId = req.params.id;
 
-    // Encontrar el usuario por ID
-    const user = await User.findById(userId);
+    // Verifica que el ID sea válido
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({
+            success: false,
+            message: 'ID de usuario no válido'
+        });
+    }
 
-    if (!user) {
+    // Encuentra y elimina el usuario
+    const result = await User.deleteOne({ _id: userId });
+
+    if (result.deletedCount === 0) {
         return res.status(404).json({
             success: false,
             message: 'Usuario no encontrado'
         });
     }
-
-    // Eliminar el usuario
-    await user.remove();
 
     res.status(200).json({
         success: true,

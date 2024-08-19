@@ -33,7 +33,7 @@ router.route('/userid/updatePassword').put(isAuthenticatedUser, updatePassword)
 router.route('/updateProfile').put(isAuthenticatedUser, authorizeRoles('admin'), updateProfile)
 router.route('/admin/usuarios').get(isAuthenticatedUser,authorizeRoles('admin'), getAllUsers)
 router.route("/admin/user/:id").get(isAuthenticatedUser, authorizeRoles('admin'), getUsuarioById)
-router.route("/admin/user/delete").get(isAuthenticatedUser, authorizeRoles('admin'), deleteUser)
+router.route("/admin/delete/:id").get(isAuthenticatedUser, authorizeRoles('admin'), deleteUser)
 
 
 module.exports=router;
