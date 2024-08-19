@@ -5,7 +5,8 @@ const tokenEnviado = require("../utils/jwtToken");
 const sendEmail= require("../utils/sendEmail");
 const crypto=require('crypto');
 const resetPasswordToken  =require('../models/auth')
-const getResetPasswordToken =require ('../models/auth')
+const getResetPasswordToken =require ('../models/auth');
+const { AsyncResource } = require("async_hooks");
 
 // Registrar un nuevo usuario /api/usuario
 
@@ -108,9 +109,6 @@ exports.resetPassword= cathAsyncErrors(async(req,res,next)=>{
     const resetPasswordToken= crypto.createHash("sha256").update(req.params.token).digest("hex")
     // Buscamos el usuario al que le vamos a resetear la contraseña
 
-    console.log("Token recibido:", req.params.token);
-    console.log("Token hasheado:", resetPasswordToken);
-
     const user= await User.findOne({
         resetPasswordToken,
         resetPasswordExpire:{ $gt: Date.now()}
@@ -131,4 +129,122 @@ exports.resetPassword= cathAsyncErrors(async(req,res,next)=>{
     tokenEnviado(user, 200,res)
 })
 
+//Ver perfil de usuario
+exports.getUserByID= cathAsyncErrors(async(req,res,next)=>{
+    const user=await User.findById(req.user.id);
 
+    res.status(200).json({
+        success:true,
+        user
+    })
+})
+
+// Update contraseña (usuario logueado)
+exports.updatePassword=cathAsyncErrors(async(req, res, next)=>{
+    const user= await User.findById(req.user.id).select("+password");
+
+    // Revisar si la contraseña antigua es igual a la nueva
+
+    const sonIguales= await user.compararPass(req.body.oldPassword)
+
+    if(!sonIguales){
+        return next(new ErrorHandler("La contraseña anterior no es correcta",400))
+    }
+
+    user.password=req.body.newPassword;
+    await user.save();
+
+    tokenEnviado(user, 200, res)
+})
+
+// Update del perfil del usuario (logueado)
+
+exports.updateProfile = cathAsyncErrors(async (req, res, next) => {
+    const nuevaData = {
+        nombre: req.body.nombre,
+        email: req.body.email,
+        role: req.body.role
+    };
+
+    // Obtener el usuario actual de la base de datos
+    const user = await User.findById(req.user.id);
+
+    // Comparar los datos actuales con los nuevos
+    const isSameData = 
+        user.nombre === nuevaData.nombre &&
+        user.email === nuevaData.email &&
+        user.role === nuevaData.role;
+
+    // Si los datos son los mismos, no realizar la actualización
+    if (isSameData) {
+        return res.status(200).json({
+            success: true,
+            message: "No se realizaron cambios porque la información es la misma.",
+            user
+        });
+    }
+
+    // Si los datos son diferentes, proceder con la actualización
+    const updatedUser = await User.findByIdAndUpdate(req.user.id, nuevaData, { 
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    });
+
+    res.status(200).json({
+        success: true,
+        message: "Perfil actualizado correctamente.",
+        user: updatedUser
+    });
+});
+
+// ver todos los usuarois
+
+exports.getAllUsers = cathAsyncErrors(async(req,res, next)=>{
+    const users = await User.find();
+
+    res.status(200).json({
+        success:true,
+        users
+    })
+})
+
+// Buscar por ID
+
+exports.getUsuarioById= cathAsyncErrors(async(req,res,next)=>{
+    
+    const usuario= await User.findById(req.params.id)
+    if(!usuario){
+        return  next(new ErrorHandler("Usuario no encontrado", 404))
+        }   
+
+        res.status(200).json({
+            success:true,
+            message: "El usuario seleccionado es:",
+            usuario
+})
+})
+
+// Eliminar usuario como admin
+
+exports.deleteUser = cathAsyncErrors(async (req, res, next) => {
+    const userId = req.params.id;
+
+    // Encontrar el usuario por ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+        return res.status(404).json({
+            success: false,
+            message: 'Usuario no encontrado'
+        });
+    }
+
+    // Eliminar el usuario
+    await user.remove();
+
+    res.status(200).json({
+        success: true,
+        message: 'Usuario eliminado con éxito'
+    });
+});

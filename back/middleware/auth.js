@@ -27,8 +27,9 @@ exports.authorizeRoles = (...roles) => {
         console.log('Rol del usuario:', req.user ? req.user.role : 'No hay usuario');
 
         if (!req.user || !roles.includes(req.user.role)) {
-            return next(new ErrorHandler(`Rol (${req.user ? req.user.role : 'desconocido'}) no está autorizado a entrar a esta área`, 403));
+            return next(new ErrorHandler(`Rol (${req.user ? req.user.role : 'desconocido'}) no está autorizado entrar a esta área`, 403));
         }
         next();
     }
 }
+
