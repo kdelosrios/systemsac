@@ -3,7 +3,7 @@ const jwt=require("jsonwebtoken")
 const ErrorHandler=require("../utils/errorHandler")
 const cathAsyncErrors=require("../middleware/cathAsyncErrors")
 
-/*
+
 // Verificar si el usuario est aautenticado(verificar el token)
 exports.isAuthenticatedUser= cathAsyncErrors(async(req,res,next)=>{
     const {token}=req.cookies
@@ -23,10 +23,12 @@ exports.isAuthenticatedUser= cathAsyncErrors(async(req,res,next)=>{
 
 exports.authorizeRoles = (...roles) => {
     return (req, res, next) => {
-        if(!roles.includes(req.user.role)){
-            return next(new ErrorHandler (`Rol (${req.user.role}) no esta autorizado a entrar a esta área`,403))
+        console.log('Roles permitidos:', roles);
+        console.log('Rol del usuario:', req.user ? req.user.role : 'No hay usuario');
+
+        if (!req.user || !roles.includes(req.user.role)) {
+            return next(new ErrorHandler(`Rol (${req.user ? req.user.role : 'desconocido'}) no está autorizado a entrar a esta área`, 403));
         }
-        next()
+        next();
     }
 }
-*/

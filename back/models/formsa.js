@@ -27,6 +27,12 @@ const registeraSchema = mongoose.Schema({
         required: [true, "Por favor seleccione el área donde evidenció el acto inseguro"]
     },
 
+    user:{
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required:true
+    }
+
 });
 
 module.exports= mongoose.model("registera",registeraSchema)

@@ -2,6 +2,7 @@ const mongoose = require ('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt=require("jsonwebtoken")
+const crypto=require("crypto")
 
 
 const usuarioSchema= new mongoose.Schema({
@@ -18,9 +19,7 @@ const usuarioSchema= new mongoose.Schema({
     },
     role:{
     type: String,
-        enum: ["admin", "user"], 
-        default: "user", 
-        required: [true, "Por favor seleccione un rol"]
+    required: [true, "Por favor seleccione un rol"]
     },
     password:{
         type: String,
@@ -56,6 +55,20 @@ usuarioSchema.methods.getJwtToken = function () {
     });
   };
 
+  // Generar un token para reset de contraseña
 
+  usuarioSchema.methods.getResetPasswordToken = function() {
+    // Generar el token sin hashear
+    const resetToken = crypto.randomBytes(20).toString('hex');
+
+    // Hashear el token y guardarlo en la base de datos
+    this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest('hex');
+
+    // Establecer la fecha de expiración (30 minutos)
+    this.resetPasswordExpire = Date.now() + 30 * 60 * 1000;
+
+    // Retornar el token sin hashear
+    return resetToken;
+};
 
 module.exports = mongoose.model("auth",usuarioSchema)

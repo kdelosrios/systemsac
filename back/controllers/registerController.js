@@ -40,6 +40,7 @@ exports.getRegisterById= cathAsyncErrors (async(req,res,next)=>{
 
 exports.newRegistera= cathAsyncErrors(async(req,res,next)=>{
     try {
+        req.body.user=req.user.id;
         const registera = await registroa.create(req.body);
         if (!registera) {
           return next(new ErrorHandler("No se pudo crear el registro", 404));
@@ -50,7 +51,7 @@ exports.newRegistera= cathAsyncErrors(async(req,res,next)=>{
           registera
         });
       } catch (error) {
-        console.error('Error en newRegistera:', error); // Agrega este log para depurar
-        next(error); // Asegúrate de que el error sea manejado por el middleware de errores
+        console.error('Error en newRegistera:', error); 
+        next(error); 
       }
     });

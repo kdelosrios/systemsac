@@ -7,7 +7,7 @@ const UserForm = () => {
         <Container className="mt-5">
             <div className="d-flex justify-content-center">
                 <Form style={{ maxWidth: '400px', width: '100%' }}>
-                    <h2 className="text-center mb-4">Crear Usuario</h2>
+                    
                     
                     <Form.Group controlId="formName">
                         <Form.Label >Nombre</Form.Label>
@@ -53,7 +53,7 @@ const UserForm = () => {
                     </Form.Group>
 
                     <Button variant="primary" type="submit" className="mt-3">
-                        Crear Usuario
+                        Crear usuario
                     </Button>
                 </Form>
             </div>

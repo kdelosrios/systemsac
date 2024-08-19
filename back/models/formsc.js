@@ -26,6 +26,12 @@ const registercSchema = mongoose.Schema({
         enum: ['Producción','Mantenimiento','CEDI','Materias primas','Gestión humana'],
         required: [true, "Por favor seleccione el área donde evidenció el acto inseguro"]
     },
+    
+    user:{
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required:true
+    }
 
 });
 

@@ -5,7 +5,8 @@ const ErrorHandler = require("../utils/errorHandler");
 
 // Lista de registros de condiciones inseguras
 exports.getregitersc = cathAsyncErrors (async (req, res, next) => {
-    
+
+       
         const registrosc = await registroc.find();
         if(!registrosc){
             return  next(new ErrorHandler("Información no encontrada", 404))
@@ -38,6 +39,7 @@ exports.getRegistercById= cathAsyncErrors(async(req,res,next)=>{
 // crear un condicion insegura /registerc
 
 exports.newRegisterc= cathAsyncErrors(async(req,res,next)=>{
+    req.body.user=req.user.id;
     const registerc= await registroc.create(req.body);
 
     if(!registerc){

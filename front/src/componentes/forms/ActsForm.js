@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import '../forms/FormsStyles.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch } from 'react-redux';
-import { createAct } from '../../actions/actActions';
+import { createCondition } from '../../actions/conditionActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
-const ActsForm = () => {
+const Conditionsform = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -31,11 +31,23 @@ const ActsForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createAct(formData))
+
+    // Validación de campos obligatorios
+    const { fecha, descripcion, riesgo, caracteristicas, area } = formData;
+    if (!fecha || !descripcion || !riesgo || !caracteristicas || !area) {
+      setAlert({
+        type: 'danger',
+        message: 'Todos los campos son obligatorios.',
+        icon: <FontAwesomeIcon icon={faTimesCircle} />
+      });
+      return;
+    }
+
+    dispatch(createCondition(formData))
       .then(() => {
         setAlert({
           type: 'success',
-          message: 'Registro de acto inseguro creado exitosamente',
+          message: 'Condición insegura creada exitosamente',
           icon: <FontAwesomeIcon icon={faCheckCircle} />
         });
         setFormData({
@@ -62,7 +74,7 @@ const ActsForm = () => {
   return (
     <div className="section sectionac">
       <div className="form-wrapper">
-        <h2 className="form-title">Registro de Actos Inseguros</h2>
+        <h2 className="form-title">Registro de Condiciones Inseguras</h2>
         
         {alert.message && (
           <div className={`alert alert-${alert.type} d-flex align-items-center`} role="alert">
@@ -83,6 +95,7 @@ const ActsForm = () => {
               name="fecha"
               value={formData.fecha}
               onChange={handleChange}
+              required
             />
           </div>
 
@@ -95,6 +108,7 @@ const ActsForm = () => {
               name="descripcion"
               value={formData.descripcion}
               onChange={handleChange}
+              required
             ></textarea>
           </div>
 
@@ -104,6 +118,7 @@ const ActsForm = () => {
             aria-label="Default select riesgo"
             onChange={handleChange}
             value={formData.riesgo}
+            required
           >
             <option value="">Seleccionar riesgo</option>
             <option value="Físico">Físico</option>
@@ -121,16 +136,15 @@ const ActsForm = () => {
             aria-label="Default select características"
             onChange={handleChange}
             value={formData.caracteristicas}
+            required
           >
             <option value="">Seleccionar característica</option>
-            <option value="No uso de EPP">No uso de EPP</option>
-            <option value="Ingreso a zonas restringidas">Ingreso a zonas restringidas</option>
-            <option value="Manipulación incorrecta de equipos">Manipulación incorrecta de equipos</option>
-            <option value="Ignorar procedimientos de seguridad">Ignorar procedimientos de seguridad</option>
-            <option value="Postura y movimientos incorrectos">Postura y movimientos incorrectos</option>
-            <option value="Falta de atención o concentración">Falta de atención o concentración</option>
-            <option value="Uso inadecuado de herramientas">Uso inadecuado de herramientas</option>
-            <option value="Uso inseguro de sustancias o materiales">Uso inseguro de sustancias o materiales</option>
+            <option value="Equipos sin guardas">Equipos sin guardas</option>
+            <option value="Áreas peligrosas sin restricción">Áreas peligrosas sin restricción</option>
+            <option value="Iluminación inadecuada">Iluminación inadecuada</option>
+            <option value="Señalización deficiente">Señalización deficiente</option>
+            <option value="Condiciones ambientales peligrosas">Condiciones ambientales peligrosas</option>
+            <option value="Espacios confinados sin control">Espacios confinados sin control</option>
           </select>
 
           <select
@@ -139,6 +153,7 @@ const ActsForm = () => {
             aria-label="Default select área"
             onChange={handleChange}
             value={formData.area}
+            required
           >
             <option value="">Seleccionar área</option>
             <option value="Producción">Producción</option>
@@ -155,4 +170,4 @@ const ActsForm = () => {
   );
 };
 
-export default ActsForm;
+export default Conditionsform;
