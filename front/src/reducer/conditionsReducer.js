@@ -10,43 +10,42 @@ import {
 } from "../constants/registerConstants";
 
 const initialState = {
+    conditions: [],
     loading: false,
-    conditions: [], 
-    count: 0, 
-    error: null
+    error: null,
+    count: 0
 };
 
 export const conditionsReducer = (state = initialState, action) => {
     switch(action.type) {
         case CONDITIONS_REQUEST:
             return {
-                loading: true, 
-                conditions: [], 
-                count: 0,
+                ...state,
+                loading: true,
+                conditions: [],
                 error: null
             };
         case CONDITIONS_SUCCESS:
             return {
-                loading: false, 
-                conditions: action.payload.registrosc, // Asegúrate de usar 'registrosc'
+                loading: false,
+                conditions: action.payload.registrosc, 
                 count: action.payload.count
             };
         case CONDITIONS_FAIL:
             return {
                 ...state,
-                loading: false, 
-                error: action.payload 
+                loading: false,
+                error: action.payload
             };
         case CLEAR_ERRORSC:
             return {
                 ...state,
-                error: null 
+                error: null
             };
         default:
-            return state; 
+            return state;
     }
 };
-
 /// REDUCER PARA BUSCAR CONDITCIONES POR ID
 
 export const conditionsByIdReducer = (state = {conditions:null}, action) => {

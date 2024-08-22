@@ -3,7 +3,7 @@ import { thunk } from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { actsReducer,actsByIdReducer } from './reducer/actReducer';
 import { conditionsReducer,conditionsByIdReducer } from './reducer/conditionsReducer';
-import { authReducer,userReducer } from './reducer/userReducer';
+import { authReducer,adminUserReducer,userReducer } from './reducer/userReducer';
 
 const reducer =combineReducers({
     acts:actsReducer,
@@ -11,7 +11,8 @@ const reducer =combineReducers({
     actByID:actsByIdReducer,
     conditionbyID:conditionsByIdReducer,
     auth:authReducer,
-    users:userReducer
+    user: adminUserReducer,
+    users: userReducer
     
 
     

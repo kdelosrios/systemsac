@@ -38,20 +38,21 @@ exports.getRegisterById= cathAsyncErrors (async(req,res,next)=>{
 
 // crear un acto inseguro /registera
 
-exports.newRegistera= cathAsyncErrors(async(req,res,next)=>{
-    try {
-        req.body.user=req.user.id;
-        const registera = await registroa.create(req.body);
-        if (!registera) {
+exports.newRegistera = cathAsyncErrors(async (req, res, next) => {
+  try {
+      req.body.user = req.user.id;  // Asegúrate de que req.user exista y tenga id
+      const registera = await registroa.create(req.body); // Verifica que registroa sea el modelo correcto
+      
+      if (!registera) {
           return next(new ErrorHandler("No se pudo crear el registro", 404));
-        }
-    
-        res.status(201).json({
+      }
+
+      res.status(201).json({
           success: true,
           registera
-        });
-      } catch (error) {
-        console.error('Error en newRegistera:', error); 
-        next(error); 
-      }
-    });
+      });
+  } catch (error) {
+      console.error('Error en newRegistera:', error); 
+      next(error); 
+  }
+});

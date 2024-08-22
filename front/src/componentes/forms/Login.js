@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { login, clearErrors } from "../../actions/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Alert } from 'react-bootstrap'; // Asegúrate de tener esta dependencia
+import { Alert } from 'react-bootstrap'; 
 
 const Login = () => {
   const navigate = useNavigate(); 
@@ -18,7 +18,7 @@ const Login = () => {
       navigate("/home");
     }
     if (error) {
-      setShowAlert(true); // Muestra la alerta si hay un error
+      setShowAlert(true); 
       dispatch(clearErrors()); 
     }
   }, [dispatch, isAuthenticated, error, navigate]);

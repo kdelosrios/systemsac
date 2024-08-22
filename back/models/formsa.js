@@ -13,7 +13,7 @@ const registeraSchema = mongoose.Schema({
     },
     riesgo: {
         type: [String],
-        enum: ['Físicos', 'Químico', 'Biológico', 'Biomecánico', 'Psicosocial', 'Condiciones de Seguridad', 'Eléctrico', 'Mecánico'],
+        enum: ['Físico', 'Químico', 'Biológico', 'Biomecánico', 'Psicosocial', 'Condiciones de Seguridad', 'Eléctrico', 'Mecánico'],
         required: [true, "Por favor seleccione el riesgo"]
     },
     caracteristicas: {

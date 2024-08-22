@@ -12,9 +12,10 @@ import Login from './componentes/forms/Login.js';
 import ForgotPassword from './componentes/forms/forgotPassword.js';
 import store from './store.js'
 import { loadUser } from './actions/userAction.js';
-import Navigation from '../src/componentes/Navegation.js';
+import Navegation from './componentes/Navegation.js'
 import ProtectedRoute from './componentes/routes/ProtectedRoutes.js';
 import Register from './componentes/forms/CreateUser.js';
+import UpdateProfile from './componentes/forms/UpdateProfile.js';
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <Navigation/>
+       <Navegation/>
        
         <Routes>
           <Route path='/' element={<Login />} />
@@ -53,14 +54,23 @@ function App() {
           <Route path='/registroc' 
           element={<ProtectedRoute isAdmin={true}><Ctable /></ProtectedRoute>} />
          
-          <Route path='/usuarios' 
+          <Route path='/admin/usuarios' 
           element={<ProtectedRoute isAdmin={true}><Usuarios /></ProtectedRoute>} />
           
           <Route path='/usuario/registro' 
           element= {<ProtectedRoute isAdmin={true}><Register/></ProtectedRoute>}/>
-           
-         
+   
+
+        <Route path='/updateProfile' 
+          element= {<ProtectedRoute isAdmin={true}><UpdateProfile/></ProtectedRoute>}/>
+        
+
+
         </Routes>
+
+
+
+
       </div>
     </BrowserRouter>
   );

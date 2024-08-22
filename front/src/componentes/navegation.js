@@ -70,7 +70,7 @@ const Navegation = () => {
                 <Link className="dropdown-item text-black" to="/usuario/registro">
                   Crear usuario
                 </Link>
-                <Link className="dropdown-item text-black" to="/usuarios">
+                <Link className="dropdown-item text-black" to="/admin/usuarios">
                   Ver usuario
                 </Link>
               </div>

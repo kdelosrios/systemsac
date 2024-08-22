@@ -11,8 +11,6 @@ const mongoose = require('mongoose');
 // Registrar un nuevo usuario /api/usuario
 
 exports.registroUsuario = cathAsyncErrors(async (req, res, next) => {
-
-    console.log("Datos recibidos:", req.body);
     const { nombre, email, role, password } = req.body;
 
     if (!nombre || !email || !role || !password) {
@@ -24,7 +22,7 @@ exports.registroUsuario = cathAsyncErrors(async (req, res, next) => {
             nombre,
             email,
             role,
-            password,
+            password
         });
 
         tokenEnviado(user, 201, res);
@@ -34,20 +32,18 @@ exports.registroUsuario = cathAsyncErrors(async (req, res, next) => {
         res.status(500).json({ message: 'Error al registrar el usuario.' });
     }
 });
-
-
 // iniciar sesión
 
 exports.loginUser=cathAsyncErrors(async(req,res,next)=>{
     const {email,password} = req.body;
 
-// Revisar si los campos están completos
+    // Revisar si los campos están completos
 
     if(!email || !password){
         return next(new ErrorHandler("Por favor ingrese el email y contraseña"), 400)
     }
 
-// Revisar si el usuario existe en la BD
+    // Revisar si el usuario existe en la BD
 
     const user=await User.findOne({email}).select("+password")
         if (!user){
@@ -55,7 +51,7 @@ exports.loginUser=cathAsyncErrors(async(req,res,next)=>{
         }
    
 
-// Comparar contraseñas, verificar si está bien
+    //Comparar contraseñas, verificar si está bien
 
     const contraseñaOK=await user.compararPass(password);
 
@@ -171,22 +167,29 @@ exports.updatePassword=cathAsyncErrors(async(req, res, next)=>{
 // Update del perfil del usuario (logueado)
 
 exports.updateProfile = cathAsyncErrors(async (req, res, next) => {
+
     const nuevaData = {
         nombre: req.body.nombre,
         email: req.body.email,
         role: req.body.role
     };
 
-    // Obtener el usuario actual de la base de datos
+
+
     const user = await User.findById(req.user.id);
 
-    // Comparar los datos actuales con los nuevos
+    if (!user) {
+        return res.status(404).json({
+            success: false,
+            message: "Usuario no encontrado."
+        });
+    }
+
     const isSameData = 
         user.nombre === nuevaData.nombre &&
         user.email === nuevaData.email &&
         user.role === nuevaData.role;
 
-    // Si los datos son los mismos, no realizar la actualización
     if (isSameData) {
         return res.status(200).json({
             success: true,
@@ -195,12 +198,13 @@ exports.updateProfile = cathAsyncErrors(async (req, res, next) => {
         });
     }
 
-    // Si los datos son diferentes, proceder con la actualización
     const updatedUser = await User.findByIdAndUpdate(req.user.id, nuevaData, { 
         new: true,
         runValidators: true,
         useFindAndModify: false
     });
+
+    console.log("Usuario actualizado:", updatedUser);
 
     res.status(200).json({
         success: true,

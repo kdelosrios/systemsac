@@ -37,16 +37,22 @@ exports.getRegistercById= cathAsyncErrors(async(req,res,next)=>{
 
 // crear un condicion insegura /registerc
 
-exports.newRegisterc= cathAsyncErrors(async(req,res,next)=>{
-    req.body.user=req.user.id;
-    const registerc= await registroc.create(req.body);
+exports.newRegisterc = cathAsyncErrors(async (req, res, next) => {
+    try {
+        req.body.user = req.user.id;
 
-    if(!registerc){
-        return  next(new ErrorHandler("Registro no encontrado", 404))
-        } 
+        const registerc = await registroc.create(req.body);
 
-    res.status(201).json({
-        success:true,
-        registerc
-    })
-})
+        if (!registerc) {
+            return next(new ErrorHandler("Registro no encontrado", 404));
+        }
+
+        res.status(201).json({
+            success: true,
+            registerc
+        });
+    } catch (error) {
+        console.error('Error en newRegisterc:', error);
+        next(error);
+    }
+});

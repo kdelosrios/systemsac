@@ -1,64 +1,67 @@
 import React, { useState, useEffect } from "react";
 import { useAlert } from "react-alert";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useDispatch, useSelector } from "react-redux";
-import { register, clearErrors } from "../../actions/userAction";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfile, clearErrors, loadUser } from "../../actions/userAction";
+import { UPDATE_PROFILE_RESET } from "../../constants/userConstans"
 
-const Register = () => {
-  const [user, setUser] = useState({
-    nombre: "",
-    email: "",
-    role: "",
-    password: "",
-  });
-
+const UpdateProfile = () => {
   const navigate = useNavigate();
-  const { nombre, email, role, password } = user;
+  const [nombre, setNombre] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
   const alert = useAlert();
   const dispatch = useDispatch();
-  const { isAuthenticated, error } = useSelector(state => state.auth);
+
+  const { user } = useSelector((state) => state.auth);
+  const { error, isUpdated, loading } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/usuario/registro");
+    if (user) {
+      setNombre(user.nombre);
+      setEmail(user.email);
+      setRole(user.role);
     }
+
     if (error) {
       alert.error(error);
-      dispatch(clearErrors()); // Cambia esto
+      dispatch(clearErrors());
     }
-  }, [dispatch, isAuthenticated, error, alert, navigate]);
+    if (isUpdated) {
+      alert.success("Perfil actualizado correctamente");
+      dispatch(loadUser());
+
+      navigate("/admin/usuarios");
+
+      dispatch({
+        type: UPDATE_PROFILE_RESET,
+      });
+    }
+  }, [dispatch, alert, error, isUpdated, user, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    console.log("Datos del usuario enviados:", {
-      nombre,
-      email,
-      role,
-      password,
-    });
-
     const formData = new FormData();
-    formData.set("nombre", nombre);
-    formData.set("email", email);
-    formData.set("role", role);
-    formData.set("password", password);
+    formData.append("nombre", nombre);
+    formData.append("email", email);
+    formData.append("role", role);
 
-    dispatch(register(formData));
-  };
-
-  const onChange = e => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value,
+    // Imprimir los datos del FormData
+    const formDataObj = {};
+    formData.forEach((value, key) => {
+        formDataObj[key] = value;
     });
-  };
+    console.log("Datos enviados:", formDataObj);
+
+    dispatch(updateProfile(formData));
+};
 
   return (
     <div className="section sectionac">
       <div className="form-wrapper">
-        <h2 className="form-title">Registro de usuarios</h2>
+        <h2 className="form-title">Actualización de usuarios</h2>
 
         {alert.message && (
           <div
@@ -69,7 +72,6 @@ const Register = () => {
             <div className="ms-2">{alert.message}</div>
           </div>
         )}
-
         <form onSubmit={submitHandler} className="form-container">
           <div className="mb-3">
             <label htmlFor="nombre" className="form-label">
@@ -81,7 +83,7 @@ const Register = () => {
               id="nombre"
               name="nombre"
               value={nombre}
-              onChange={onChange}
+              onChange={(e) => setNombre(e.target.value)}
               required
             />
           </div>
@@ -96,7 +98,7 @@ const Register = () => {
               id="email_field"
               name="email"
               value={email}
-              onChange={onChange}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
@@ -111,28 +113,17 @@ const Register = () => {
               id="role"
               name="role"
               value={role}
-              onChange={onChange}
+              onChange={(e) => setRole(e.target.value)}
               required
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Contraseña
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              name="password"
-              value={password}
-              onChange={onChange}
-              required
-            />
-          </div>
-
-          <button type="submit" className="btn btn-primary">
-            Enviar
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={loading ? true : false}
+          >
+            Actualizar Perfil
           </button>
         </form>
       </div>
@@ -140,4 +131,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default UpdateProfile;

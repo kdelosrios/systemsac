@@ -5,10 +5,12 @@ import { useEffect, useState } from 'react';
 import { useAlert } from 'react-alert';
 import { Button } from 'react-bootstrap';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const Usuarios = () => {
   const [searchId, setSearchId] = useState('');
   const [filteredUsers, setFilteredUsers] = useState([]);
+  const navigate = useNavigate();
   
 
   const { loading, users, error } = useSelector(state => state.users);
@@ -39,13 +41,13 @@ const Usuarios = () => {
     
   };
 
-  const handleEdit = (id) => {
-    // Implementa la lógica para editar el usuario con el id proporcionado
-    console.log('Editar usuario:', id);
+  const handleEdit = () => {
+    
+    navigate('/updateProfile'); 
   };
 
   const handleDelete = (id) => {
-    // Implementa la lógica para eliminar el usuario con el id proporcionado
+    
     console.log('Eliminar usuario:', id);
   };
 
@@ -99,6 +101,7 @@ const Usuarios = () => {
                     variant="outline-primary" 
                     className="me-2"
                     onClick={() => handleEdit(user._id)}
+                    to="/"
                   >
                     <FaEdit />
                   </Button>

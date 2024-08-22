@@ -1,93 +1,104 @@
-import React, { useState } from 'react';
-import '../forms/FormsStyles.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { useDispatch } from 'react-redux';
-import { createCondition } from '../../actions/conditionActions';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import "../forms/FormsStyles.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useDispatch } from "react-redux";
+import { createAct } from "../../actions/actActions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheckCircle,
+  faTimesCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
-const Conditionsform = () => {
+const Actform = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    fecha: '',
-    descripcion: '',
-    riesgo: '',
-    caracteristicas: '',
-    area: ''
+    fecha: "",
+    descripcion: "",
+    riesgo: "",
+    caracteristicas: "",
+    area: "",
   });
 
-  const [alert, setAlert] = useState({ type: '', message: '', icon: null });
+  const [alert, setAlert] = useState({ type: "", message: "", icon: null });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validación de campos obligatorios
     const { fecha, descripcion, riesgo, caracteristicas, area } = formData;
     if (!fecha || !descripcion || !riesgo || !caracteristicas || !area) {
       setAlert({
-        type: 'danger',
-        message: 'Todos los campos son obligatorios.',
-        icon: <FontAwesomeIcon icon={faTimesCircle} />
+        type: "danger",
+        message: "Todos los campos son obligatorios.",
+        icon: <FontAwesomeIcon icon={faTimesCircle} />,
       });
       return;
     }
 
-    dispatch(createCondition(formData))
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    dispatch(createAct(formData, config))
       .then(() => {
         setAlert({
-          type: 'success',
-          message: 'Condición insegura creada exitosamente',
-          icon: <FontAwesomeIcon icon={faCheckCircle} />
+          type: "success",
+          message: "Acto inseguro creado exitosamente",
+          icon: <FontAwesomeIcon icon={faCheckCircle} />,
         });
         setFormData({
-          fecha: '',
-          descripcion: '',
-          riesgo: '',
-          caracteristicas: '',
-          area: ''
+          fecha: "",
+          descripcion: "",
+          riesgo: "",
+          caracteristicas: "",
+          area: "",
         });
         setTimeout(() => {
-          navigate('/home'); 
+          navigate("/home");
         }, 1000);
       })
       .catch((error) => {
         setAlert({
-          type: 'danger',
-          message: 'Error al crear el registro',
-          icon: <FontAwesomeIcon icon={faTimesCircle} />
+          type: "danger",
+          message: "Error al crear el registro",
+          icon: <FontAwesomeIcon icon={faTimesCircle} />,
         });
-        console.error('Error al crear el registro:', error);
+        console.error("Error al crear el registro:", error);
       });
   };
 
   return (
     <div className="section sectionac">
       <div className="form-wrapper">
-        <h2 className="form-title">Registro de Condiciones Inseguras</h2>
-        
+        <h2 className="form-title">Registro de actos inseguros</h2>
+
         {alert.message && (
-          <div className={`alert alert-${alert.type} d-flex align-items-center`} role="alert">
+          <div
+            className={`alert alert-${alert.type} d-flex align-items-center`}
+            role="alert"
+          >
             {alert.icon}
-            <div className="ms-2">
-              {alert.message}
-            </div>
+            <div className="ms-2">{alert.message}</div>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="form-container">
           <div className="mb-3">
-            <label htmlFor="exampleDate" className="form-label">Fecha</label>
+            <label htmlFor="exampleDate" className="form-label">
+              Fecha
+            </label>
             <input
               type="date"
               className="form-control"
@@ -100,7 +111,9 @@ const Conditionsform = () => {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="exampleDescription" className="form-label">Descripción</label>
+            <label htmlFor="exampleDescription" className="form-label">
+              Descripción
+            </label>
             <textarea
               className="form-control"
               id="exampleDescription"
@@ -124,8 +137,11 @@ const Conditionsform = () => {
             <option value="Físico">Físico</option>
             <option value="Químico">Químico</option>
             <option value="Biológico">Biológico</option>
+            <option value="Biomecánico">Biomecánico</option>
             <option value="Psicosocial">Psicosocial</option>
-            <option value="Condiciones de Seguridad">Condiciones de Seguridad</option>
+            <option value="Condiciones de Seguridad">
+              Condiciones de Seguridad
+            </option>
             <option value="Eléctrico">Eléctrico</option>
             <option value="Mecánico">Mecánico</option>
           </select>
@@ -139,12 +155,28 @@ const Conditionsform = () => {
             required
           >
             <option value="">Seleccionar característica</option>
-            <option value="Equipos sin guardas">Equipos sin guardas</option>
-            <option value="Áreas peligrosas sin restricción">Áreas peligrosas sin restricción</option>
-            <option value="Iluminación inadecuada">Iluminación inadecuada</option>
-            <option value="Señalización deficiente">Señalización deficiente</option>
-            <option value="Condiciones ambientales peligrosas">Condiciones ambientales peligrosas</option>
-            <option value="Espacios confinados sin control">Espacios confinados sin control</option>
+            <option value="No uso de EPP">No uso de EPP</option>
+            <option value="Ingreso a zonas restringidas">
+              Ingreso a zonas restringidas
+            </option>
+            <option value="Manipulación incorrecta de equipos">
+              Manipulación incorrecta de equipos
+            </option>
+            <option value="Ignorar procedimientos de seguridad">
+              Ignorar procedimientos de seguridad
+            </option>
+            <option value="Postura y movimientos incorrectos">
+              Postura y movimientos incorrectos
+            </option>
+            <option value="Falta de atención o concentración">
+              Falta de atención o concentración
+            </option>
+            <option value="Uso inadecuado de herramientas">
+              Uso inadecuado de herramientas
+            </option>
+            <option value="Uso inseguro de sustancias o materiales">
+              Uso inseguro de sustancias o materiales
+            </option>
           </select>
 
           <select
@@ -163,11 +195,13 @@ const Conditionsform = () => {
             <option value="Gestión Humana">Gestión Humana</option>
           </select>
 
-          <button type="submit" className="btn btn-primary">Enviar</button>
+          <button type="submit" className="btn btn-primary">
+            Enviar
+          </button>
         </form>
       </div>
     </div>
   );
 };
 
-export default Conditionsform;
+export default Actform;

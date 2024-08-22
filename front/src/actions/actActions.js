@@ -76,12 +76,11 @@ export const clearErrorsaByID = ()=> async(dispatch)=>{
 
 // DETALLE POR CREACION DE ACTO
 
-export const createAct = (formData) => async (dispatch) => {
+export const createAct = (formData, config) => async (dispatch) => {
     try {
         dispatch({ type: CREATE_ACT_REQUEST });
 
-       
-        const {data} = await axios.post('/api/newregistroa', formData);
+        const { data } = await axios.post('/api/newregistroa', formData, config);
 
         dispatch({
             type: CREATE_ACT_SUCCESS,

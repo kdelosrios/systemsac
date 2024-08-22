@@ -24,7 +24,7 @@ import {
 export const getConditions = () => async (dispatch) => {
     try {
         dispatch({ type: CONDITIONS_REQUEST });
-        const { data } = await axios.get('api/registroc');
+        const { data } = await axios.get('/api/registroc');
         console.log('API Response Data:', data);
 
         dispatch({
@@ -82,8 +82,7 @@ export const createCondition = (formData) => async (dispatch) => {
     try {
         dispatch({ type: CREATE_CONDITION_REQUEST });
 
-       
-        const {data} = await axios.post('/api/newregistroc', formData);
+        const { data } = await axios.post('/api/newregistroc', formData);
 
         dispatch({
             type: CREATE_CONDITION_SUCCESS,
@@ -92,7 +91,7 @@ export const createCondition = (formData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: CREATE_CONDITION_FAIL,
-            payload: error.response.data.message,
+            payload: error.response?.data?.message || error.message,
         });
     }
 };
