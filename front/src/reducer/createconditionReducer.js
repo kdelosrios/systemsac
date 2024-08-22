@@ -4,7 +4,7 @@ import {
     CREATE_CONDITION_FAIL,
     CLEAR_ERRORSC,
     
-}from "../constants/actions";
+}from "../constants/registerConstants";
 
 
 const initialState={

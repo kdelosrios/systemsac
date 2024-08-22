@@ -7,7 +7,7 @@ import { ACTS_REQUEST,
     ACT_ID_FAIL,
 
     CLEAR_ERRORSA,
-    CLEAR_ERRORSAI } from "../constants/actions";
+    CLEAR_ERRORSAI } from "../constants/registerConstants";
 
 const initialState = {
     loading: false,

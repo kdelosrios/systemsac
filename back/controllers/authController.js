@@ -10,20 +10,30 @@ const mongoose = require('mongoose');
 
 // Registrar un nuevo usuario /api/usuario
 
-exports.registroUsuario = cathAsyncErrors(async(req, res, next)=>{
-    const {nombre,email,role,password}= req.body;
-    
+exports.registroUsuario = cathAsyncErrors(async (req, res, next) => {
 
-    const user = await User.create({
+    console.log("Datos recibidos:", req.body);
+    const { nombre, email, role, password } = req.body;
+
+    if (!nombre || !email || !role || !password) {
+        return next(new ErrorHandler("Todos los campos son obligatorios", 400));
+    }
+
+    try {
+        const user = await User.create({
+            nombre,
+            email,
+            role,
+            password,
+        });
+
+        tokenEnviado(user, 201, res);
         
-        nombre,
-        email,
-        role,
-        password,
-    });   
-
-    tokenEnviado(user,201,res)
-})
+    } catch (error) {
+        console.error('Error al crear el usuario:', error);
+        res.status(500).json({ message: 'Error al registrar el usuario.' });
+    }
+});
 
 
 // iniciar sesión
@@ -43,6 +53,7 @@ exports.loginUser=cathAsyncErrors(async(req,res,next)=>{
         if (!user){
             return next(new ErrorHandler("Email o contraseña incorrectos",401))
         }
+   
 
 // Comparar contraseñas, verificar si está bien
 
@@ -198,7 +209,7 @@ exports.updateProfile = cathAsyncErrors(async (req, res, next) => {
     });
 });
 
-// ver todos los usuarois
+// ver todos los usuarios
 
 exports.getAllUsers = cathAsyncErrors(async(req,res, next)=>{
     const users = await User.find();
@@ -228,28 +239,15 @@ exports.getUsuarioById= cathAsyncErrors(async(req,res,next)=>{
 // Eliminar usuario como admin
 
 exports.deleteUser = cathAsyncErrors(async (req, res, next) => {
-    const userId = req.params.id;
+    const user = await User.findByIdAndDelete(req.params.id);
 
-    // Verifica que el ID sea válido
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).json({
-            success: false,
-            message: 'ID de usuario no válido'
-        });
-    }
-
-    // Encuentra y elimina el usuario
-    const result = await User.deleteOne({ _id: userId });
-
-    if (result.deletedCount === 0) {
-        return res.status(404).json({
-            success: false,
-            message: 'Usuario no encontrado'
-        });
+    // Verificar si se eliminó el usuario
+    if (!user) {
+        return next(new ErrorHandler(`Usuario con Id: ${req.params.id} no se encuentra en la base de datos`, 404));
     }
 
     res.status(200).json({
         success: true,
-        message: 'Usuario eliminado con éxito'
+        message: 'Usuario eliminado correctamente'
     });
 });

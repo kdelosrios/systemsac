@@ -1,11 +1,81 @@
-import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useDispatch, useSelector } from 'react-redux';
+import {getUser} from '../../actions/userAction';
+import { useEffect, useState } from 'react';
+import { useAlert } from 'react-alert';
 import { Button } from 'react-bootstrap';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const Usuarios = () => {
+  const [searchId, setSearchId] = useState('');
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  
+
+  const { loading, users, error } = useSelector(state => state.users);
+  const alert = useAlert();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+    }
+    dispatch(getUser());
+    alert.success("Usuarios cargados correctamente");
+  }, [dispatch, error, alert]);
+
+  useEffect(() => {
+    if (searchId) {
+      setFilteredUsers(users.filter(user => user._id === searchId));
+    } else {
+      setFilteredUsers(users);
+    }
+  }, [searchId, users]);
+
+  const handleSearchChange = (e) => {
+    setSearchId(e.target.value);
+  };
+
+  const handleSearchClick = () => {
+    
+  };
+
+  const handleEdit = (id) => {
+    // Implementa la lógica para editar el usuario con el id proporcionado
+    console.log('Editar usuario:', id);
+  };
+
+  const handleDelete = (id) => {
+    // Implementa la lógica para eliminar el usuario con el id proporcionado
+    console.log('Eliminar usuario:', id);
+  };
+
+  if (loading) return <div>Cargando...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
-    <div className="container mt-5">
+    <div>
+      <div className="row mt-5 mb-4 justify-content-end">
+        <div className="col-auto">
+          <input
+            type="text"
+            placeholder="Buscar por ID"
+            value={searchId}
+            onChange={handleSearchChange}
+            className="form-control"
+          />
+        </div>
+
+        <div className="col-auto">
+          <button
+            onClick={handleSearchClick}
+            className="btn btn-primary btn-sm"
+            style={{ backgroundColor: '#2c3152', color: '#ffffff', borderColor: '#2c3152' }}
+          >
+            Buscar
+          </button>
+        </div>
+      </div>
+
       <table className="table">
         <thead>
           <tr>
@@ -13,38 +83,39 @@ const Usuarios = () => {
             <th scope="col">Nombre</th>
             <th scope="col">Email</th>
             <th scope="col">Rol</th>
-            <th scope="col">Acciones</th> {/* Columna para los íconos */}
+            <th scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Usuario1</td>
-            <td>usuario1@example.com</td>
-            <td>Administrador</td>
-            <td>
-              <Button variant="outline-primary" className="me-2">
-                <FaEdit /> {/* Ícono de editar */}
-              </Button>
-              <Button variant="outline-danger">
-                <FaTrash /> {/* Ícono de eliminar */}
-              </Button>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Usuario2</td>
-            <td>usuario2@example.com</td>
-            <td>Usuario Regular</td>
-            <td>
-              <Button variant="outline-primary" className="me-2">
-                <FaEdit /> {/* Ícono de editar */}
-              </Button>
-              <Button variant="outline-danger">
-                <FaTrash /> {/* Ícono de eliminar */}
-              </Button>
-            </td>
-          </tr>
+          {filteredUsers.length > 0 ? (
+            filteredUsers.map((user, index) => (
+              <tr key={user._id || index}>
+                <th scope="row">{index + 1}</th>
+                <td>{user.nombre || 'N/A'}</td>
+                <td>{user.email || 'N/A'}</td>
+                <td>{user.role || 'N/A'}</td>
+                <td>
+                  <Button 
+                    variant="outline-primary" 
+                    className="me-2"
+                    onClick={() => handleEdit(user._id)}
+                  >
+                    <FaEdit />
+                  </Button>
+                  <Button 
+                    variant="outline-danger"
+                    onClick={() => handleDelete(user._id)}
+                  >
+                    <FaTrash />
+                  </Button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5">No hay datos disponibles</td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

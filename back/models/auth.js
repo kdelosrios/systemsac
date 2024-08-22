@@ -19,7 +19,7 @@ const usuarioSchema= new mongoose.Schema({
     },
     role:{
     type: String,
-    required: [true, "Por favor seleccione un rol"]
+    required: [true, "Por favor ingrese un rol"]
     },
     password:{
         type: String,

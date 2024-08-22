@@ -1,4 +1,3 @@
-
 const cathAsyncErrors = require("../middleware/cathAsyncErrors");
 const registroc=require("../models/formsc");
 const ErrorHandler = require("../utils/errorHandler");
@@ -51,4 +50,3 @@ exports.newRegisterc= cathAsyncErrors(async(req,res,next)=>{
         registerc
     })
 })
-

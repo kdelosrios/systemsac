@@ -45,3 +45,18 @@
     justify-content: center; 
     align-items: center;
 }
+
+.title-text {
+    font-family: 'Roboto', sans-serif;
+    text-align: center; 
+    margin-bottom: 2rem; 
+    font-size: 15px; 
+    font-family: 'Roboto', sans-serif; 
+}
+
+.h{
+    font-size: 15px; 
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+
+}

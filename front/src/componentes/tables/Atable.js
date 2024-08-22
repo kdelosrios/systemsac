@@ -8,7 +8,7 @@ const Atable = () => {
   const [searchId, setSearchId] = useState('');
   const [filteredActs, setFilteredActs] = useState([]);
 
-  const { loading, acts, error } = useSelector(state => state.acts);
+  const { acts, error } = useSelector(state => state.acts);
   const alert = useAlert();
   const dispatch = useDispatch();
 
@@ -37,10 +37,7 @@ const Atable = () => {
     
   };
 
-  console.log('Loading:', loading);
-  console.log('Acts:', acts);
-  console.log('Filtered Acts:', filteredActs);
-  console.log('Error:', error);
+
 
   return (
     <div>

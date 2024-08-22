@@ -4,7 +4,7 @@ import{
     CREATE_ACT_FAIL,
     CLEAR_ERRORSA
    }
-    from '../constants/actions'
+    from '../constants/registerConstants'
 
 const initialState={
     loading:false,

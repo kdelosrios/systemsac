@@ -17,7 +17,7 @@ import {
     CLEAR_ERRORSCI,
     
     
-} from '../constants/actions';
+} from '../constants/registerConstants';
 
  // DETALLE PARA DE CONDICIONES
 

@@ -1,64 +1,144 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Form, Button, Container } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { useAlert } from "react-alert";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useDispatch, useSelector } from "react-redux";
+import { register, clearErrors } from "../../actions/userAction";
+import { useNavigate } from "react-router-dom";
 
-const UserForm = () => {
-    return (
-        <Container className="mt-5">
-            <div className="d-flex justify-content-center">
-                <Form style={{ maxWidth: '400px', width: '100%' }}>
-                    
-                    
-                    <Form.Group controlId="formName">
-                        <Form.Label >Nombre</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Ingrese el nombre"
-                            name="name"
-                            required
-                        />
-                    </Form.Group>
+const Register = () => {
+  const [user, setUser] = useState({
+    nombre: "",
+    email: "",
+    role: "",
+    password: "",
+  });
 
-                    <Form.Group controlId="formEmail">
-                        <Form.Label>Correo Electrónico</Form.Label>
-                        <Form.Control
-                            type="email"
-                            placeholder="Ingrese el correo electrónico"
-                            name="email"
-                            required
-                        />
-                    </Form.Group>
+  const navigate = useNavigate();
+  const { nombre, email, role, password } = user;
+  const alert = useAlert();
+  const dispatch = useDispatch();
+  const { isAuthenticated, error } = useSelector(state=> state.auth);
 
-                    <Form.Group controlId="formRole">
-                        <Form.Label>Rol</Form.Label>
-                        <Form.Control
-                            as="select"
-                            name="role"
-                            required
-                        >
-                            <option value="" disabled>Seleccione el rol</option>
-                            <option value="admin">Administrador</option>
-                            <option value="user">Usuario</option>
-                        </Form.Control>
-                    </Form.Group>
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/usuario/registro");
+    }
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors);
+    }
+    
+  }, [dispatch, isAuthenticated, error,alert, navigate]);
 
-                    <Form.Group controlId="formPassword">
-                        <Form.Label>Contraseña</Form.Label>
-                        <Form.Control
-                            type="password"
-                            placeholder="Ingrese la contraseña"
-                            name="password"
-                            required
-                        />
-                    </Form.Group>
+  const submitHandler = (e) => {
+    e.preventDefault();
 
-                    <Button variant="primary" type="submit" className="mt-3">
-                        Crear usuario
-                    </Button>
-                </Form>
-            </div>
-        </Container>
-    );
+    console.log("Datos del usuario enviados:", {
+      nombre,
+      email,
+      role,
+      password,
+    });
+
+    const formData = new FormData();
+    formData.set("nombre", nombre);
+    formData.set("email", email);
+    formData.set("role", role);
+    formData.set("password", password);
+
+    dispatch(register(formData));
+  };
+  
+  const onChange = e => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  return (
+    <div className="section sectionac">
+      <div className="form-wrapper">
+        <h2 className="form-title">Registro de usuarios</h2>
+
+        {alert.message && (
+          <div
+            className={`alert alert-${alert.type} d-flex align-items-center`}
+            role="alert"
+          >
+            {alert.icon}
+            <div className="ms-2">{alert.message}</div>
+          </div>
+        )}
+
+        <form onSubmit={submitHandler} className="form-container">
+          <div className="mb-3">
+            <label htmlFor="nombre" className="form-label">
+              Nombre
+            </label>
+            <input
+              type="name"
+              className="form-control"
+              id="nombre"
+              name="nombre"
+              value={nombre}
+              onChange={onChange}
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              Email
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              id="email_field"
+              name="email"
+              value={email}
+              onChange={onChange}
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="role" className="form-label">
+              Rol
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="role"
+              name="role"
+              value={role}
+              onChange={onChange}
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              Contraseña
+            </label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              name="password"
+              value={password}
+              onChange={onChange}
+              required
+            />
+          </div>
+
+          <button type="submit" className="btn btn-primary">
+            Enviar
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 };
 
-export default UserForm;
+export default Register;

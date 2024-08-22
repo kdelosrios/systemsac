@@ -7,7 +7,7 @@ import {
     CONDITION_ID_FAIL,
     CLEAR_ERRORSC,
     CLEAR_ERRORSCI
-} from "../constants/actions";
+} from "../constants/registerConstants";
 
 const initialState = {
     loading: false,

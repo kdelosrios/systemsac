@@ -17,7 +17,7 @@ import {
     CLEAR_ERRORSAI,
     
    
-} from '../constants/actions';
+} from '../constants/registerConstants';
 
 // DETALLE DE LOS ACTOS 
 
