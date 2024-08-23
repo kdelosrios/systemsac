@@ -59,7 +59,7 @@ export const Chartc = () => {
 
     useEffect(() => {
         if (Array.isArray(conditions) && conditions.length > 0) {
-            console.log('Conditions:', conditions);
+           
 
             // Conteo de características de las condiciones
             const characteristicsCount = {
@@ -84,8 +84,6 @@ export const Chartc = () => {
                 }
             });
 
-            console.log('Characteristics Count:', characteristicsCount);
-
             setData({
                 labels: Object.keys(characteristicsCount),
                 datasets: [
@@ -104,7 +102,7 @@ export const Chartc = () => {
     if (conditionsLoading) return <p>Loading...</p>;
     if (conditionsError) return <p>Error: {conditionsError}</p>;
 
-    console.log('Data:', data);
+
 
     return (
         <div className="section section5">

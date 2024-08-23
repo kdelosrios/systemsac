@@ -1,58 +1,85 @@
-import React, { useState, useEffect } from "react";
-import { useAlert } from "react-alert";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useDispatch, useSelector } from "react-redux";
-import { register, clearErrors } from "../../actions/userAction";
+import { useDispatch } from "react-redux";
+import { register } from "../../actions/userAction";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheckCircle,
+  faTimesCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Register = () => {
-  const [user, setUser] = useState({
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
     nombre: "",
     email: "",
     role: "",
     password: "",
   });
 
-  const navigate = useNavigate();
-  const { nombre, email, role, password } = user;
-  const alert = useAlert();
-  const dispatch = useDispatch();
-  const { isAuthenticated, error } = useSelector(state => state.auth);
+  const [alert, setAlert] = useState({ type: "", message: "", icon: null });
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/usuario/registro");
-    }
-    if (error) {
-      alert.error(error);
-      dispatch(clearErrors()); // Cambia esto
-    }
-  }, [dispatch, isAuthenticated, error, alert, navigate]);
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-
-    console.log("Datos del usuario enviados:", {
-      nombre,
-      email,
-      role,
-      password,
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
     });
-
-    const formData = new FormData();
-    formData.set("nombre", nombre);
-    formData.set("email", email);
-    formData.set("role", role);
-    formData.set("password", password);
-
-    dispatch(register(formData));
   };
 
-  const onChange = e => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value,
-    });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const { nombre, email, role, password } = formData;
+
+    if (!nombre || !email || !role || !password) {
+      setAlert({
+        type: "danger",
+        message: "Todos los campos son obligatorios",
+        icon: <FontAwesomeIcon icon={faTimesCircle} />,
+      });
+      return;
+    }
+
+    // Configuración de la cabecera
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    // Crear el objeto de datos del usuario
+    const userData = { nombre, email, role, password };
+
+    // Dispatch de la acción para registrar el usuario
+    dispatch(register(userData, config))
+      .then(() => {
+        setAlert({
+          type: "success",
+          message: "Usuario creado exitosamente",
+          icon: <FontAwesomeIcon icon={faCheckCircle} />,
+        });
+        setFormData({
+          nombre: "",
+          email: "",
+          role: "",
+          password: "",
+        });
+        setTimeout(() => {
+          navigate("/home");
+        }, 1000);
+      })
+      .catch((error) => {
+        setAlert({
+          type: "danger",
+          message: "Error al crear el usuario",
+          icon: <FontAwesomeIcon icon={faTimesCircle} />,
+        });
+        console.error("Error al crear el usuario", error);
+      });
   };
 
   return (
@@ -70,7 +97,7 @@ const Register = () => {
           </div>
         )}
 
-        <form onSubmit={submitHandler} className="form-container">
+        <form onSubmit={handleSubmit} className="form-container">
           <div className="mb-3">
             <label htmlFor="nombre" className="form-label">
               Nombre
@@ -80,8 +107,8 @@ const Register = () => {
               className="form-control"
               id="nombre"
               name="nombre"
-              value={nombre}
-              onChange={onChange}
+              value={formData.nombre}
+              onChange={handleChange}
               required
             />
           </div>
@@ -95,8 +122,8 @@ const Register = () => {
               className="form-control"
               id="email_field"
               name="email"
-              value={email}
-              onChange={onChange}
+              value={formData.email}
+              onChange={handleChange}
               required
             />
           </div>
@@ -110,8 +137,8 @@ const Register = () => {
               className="form-control"
               id="role"
               name="role"
-              value={role}
-              onChange={onChange}
+              value={formData.role}
+              onChange={handleChange}
               required
             />
           </div>
@@ -125,8 +152,8 @@ const Register = () => {
               className="form-control"
               id="password"
               name="password"
-              value={password}
-              onChange={onChange}
+              value={formData.password}
+              onChange={handleChange}
               required
             />
           </div>

@@ -55,7 +55,7 @@ export const LineGraph2 = () => {
             if (typeof area === 'string' && areaCounts[area.toLowerCase()] !== undefined) {
                 areaCounts[area.toLowerCase()]++;
             } else {
-                console.warn('Área inesperada:', area);
+                
             }
         });
     });
@@ -67,7 +67,7 @@ export const LineGraph2 = () => {
             if (typeof area === 'string' && areaCountsC[area.toLowerCase()] !== undefined) {
                 areaCountsC[area.toLowerCase()]++;
             } else {
-                console.warn('Área inesperada:', area);
+                
             }
         });
     });

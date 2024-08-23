@@ -35,8 +35,14 @@ export const authReducer = (state = { user: null }, action) => {
         user: null,
       };
 
-    case LOGIN_SUCCESS:
     case REGISTER_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload,  
+      };
+
+    case LOGIN_SUCCESS:
     case LOAD_USER_SUCCESS:
       return {
         ...state,
@@ -62,6 +68,7 @@ export const authReducer = (state = { user: null }, action) => {
         user: null,
         error: action.payload,
       };
+
     case LOAD_USER_FAIL:
       return {
         loading: false,
@@ -69,6 +76,7 @@ export const authReducer = (state = { user: null }, action) => {
         user: null,
         error: action.payload,
       };
+
     case CLEAR_ERRORS:
       return {
         ...state,

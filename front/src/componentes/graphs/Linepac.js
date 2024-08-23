@@ -63,7 +63,8 @@ export const LineGraph1 = () => {
             if (typeof riesgo === 'string' && peligroCounts[riesgo.toLowerCase()] !== undefined) {
                 peligroCounts[riesgo.toLowerCase()]++;
             } else {
-                console.warn('Tipo inesperado de riesgo:', riesgo);
+                
+                
             }
         });
     });
